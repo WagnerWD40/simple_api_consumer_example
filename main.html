@@ -9,7 +9,6 @@
   <script>
     window.onload = () => {
 
-      // carrega os elementos da 
       fetch('https://jsonplaceholder.typicode.com/todos')
         .then(response => response.json())
         .then(json => formatRes(json));
@@ -87,8 +86,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Produto</th>
-                <th>Preço</th>
+                <th>Title</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
