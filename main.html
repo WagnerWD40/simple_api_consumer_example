@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>HTML API Consumer</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <script>
+    window.onload = () => {
+
+      // carrega os elementos da 
+      fetch('https://jsonplaceholder.typicode.com/todos')
+        .then(response => response.json())
+        .then(json => formatRes(json));
+
+    };
+
+    function formatRes(res) {
+      
+      console.log(res);
+      res.forEach(element => {
+        createToDoHTMLElement(element);
+      });
+    }
+
+    function createToDoHTMLElement(todo) {
+      const tableBody = document.querySelector("tbody");
+      const tr = document.createElement("tr");
+      const tdTodo = document.createElement("td");
+      const tdTodoStatus = document.createElement("td");
+
+      const contentTodo = document.createTextNode(todo.title);
+      const contentTodoStatus = document.createTextNode(todo.completed ? "completo" : "em aberto");
+
+      tdTodo.appendChild(contentTodo);
+      tdTodoStatus.appendChild(contentTodoStatus);
+
+      tr.appendChild(tdTodo);
+      tr.appendChild(tdTodoStatus);
+
+      tableBody.appendChild(tr);
+    };
+
+    function createToDo() {
+      const todoInput = document.querySelector(".todoInput");
+      const todoCheckbox = document.querySelector('.todoCheckbox:checked')
+
+      fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify({
+          title: todoInput.value,
+          completed: todoCheckbox.value,
+          userId: 1
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+      .then(response => response.json())
+      .then(json => createToDoHTMLElement(json));
+
+      todoInput.value = "";
+      todoCheckbox.checked = false;
+    }
+
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2 class="title">Create your own ToDo</h2>
+    <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">ToDo Title</label>
+        <input type="text" class="form-control todoInput" id="exampleInputEmail1" aria-describedby="todoHelp">
+        <small id="todoHelp" class="form-text text-muted">The tile of your ToDo...</small>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input todoCheckbox" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Completed?</label>
+      </div>
+      <button type="button" class="btn btn-primary submitBtn">Submit</button>
+    </form>
+  </div>
+  <div class="container">
+    <div class="limiter">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+  </div>
+</body>
+<script>
+const button = document.querySelector (".submitBtn");
+
+button.addEventListener('click', (event)=> {
+  event.preventDefault();
+  createToDo();
+})
+</script>
+</html>

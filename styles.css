@@ -1,0 +1,9 @@
+.limiter {
+    height: 50vh;
+    overflow: scroll;
+}
+
+.title {
+    text-align: center;
+    margin: 40px;
+}
